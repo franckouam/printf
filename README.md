@@ -1,2 +1,1 @@
-# printf
-The ALX cohort 5 first team project.
+# This is the readme file of the printf project
