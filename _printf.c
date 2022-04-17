@@ -1,7 +1,5 @@
-#include <math.h>
 #include <unistd.h>
 #include <stdarg.h>
-#include <stdio.h>
 #include "main.h"
 
 
@@ -11,14 +9,23 @@
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
- */
+*/
+
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 
+void print_string(char *str)
+{
+	int i = 0;
+	do {
+		_putchar( str[i]);
+		i++;
+	} while (str[i] != '\0');
+}
 
-void write_int(int n)
+/*void write_int(int n)
 {
 	int tmp = n, i = 0, j = 0; 
 	while (n % 10 > 9)
@@ -30,7 +37,8 @@ void write_int(int n)
 	for (j = tmp; j > 0; j--)
 		_putchar(48 + (n % (int)pow(10, tmp)));
 	_putchar(48 + tmp);
-}
+
+}*/
 
 /**
  * _printf - Produces output according to a format
@@ -39,30 +47,45 @@ void write_int(int n)
  */
 int _printf(const char *format, ...)
 {	
-	/*va_list ap;*/
-	unsigned int i = 0, n = 0;
-
-	while (format[i] != 0)
+	va_list ap;
+	unsigned int j = 0, n = 0; /*i = 0;*/
+	
+	/*while (format[i] != '\0')
 	{	
 		if (format[i] == '%')
 			n++;
 		i++;
-	}
-	/*va_start(ap, n);
+	}*/
+	va_start(ap, format);
 	while (format[j] != '\0')
 	{
 		if (format[j] == '%')
-			if (format[j + 1] == 'd' || format[j + 1] == 'i');
-				
-	}*/
-	write(1, format, n);
-	printf("We have %d formatters\n", n);
+		{
+			switch (format[j + 1])
+			{
+				case 'c':
+					_putchar(va_arg(ap, int));
+					break;
+				case 's':
+					print_string(va_arg(ap, char *));
+					break;
+				case '%':
+					_putchar('%');
+					break;
+			}
+
+			/*if (format[j + 1] == 'c')
+				_putchar(va_arg(ap, int));
+			else if (format[j + 1] == 's')
+				print_string(va_arg(ap, char *));*/
+			j++;
+		}
+		else 
+		{
+			_putchar(format[j]); 
+		}
+		j++;
+	}
+	va_end(ap);
 	return (n);
-}
-
-int main()
-{
-	write_int(5678);
-
-	return (0);
 }
