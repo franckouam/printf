@@ -20,14 +20,16 @@ int _putchar(char c)
  *
  */
 
-void print_string(char *str)
+int print_string(char *str)
 {
 	int i = 0;
 
-	do {
+	while (str[i] != '\0')
+	{
 		_putchar(str[i]);
 		i++;
-	} while (str[i] != '\0');
+	}
+	return (i);
 }
 
 /**
@@ -49,12 +51,15 @@ int _printf(const char *format, ...)
 			{
 				case 'c':
 					_putchar(va_arg(ap, int));
+					n++;
 					break;
 				case 's':
-					print_string(va_arg(ap, char *));
+					n += print_string(va_arg(ap, char *));
+
 					break;
 				case '%':
 					_putchar('%');
+					n++;
 					break;
 			}
 
@@ -63,6 +68,7 @@ int _printf(const char *format, ...)
 		else
 		{
 			_putchar(format[j]);
+			n++;
 		}
 		j++;
 	}
